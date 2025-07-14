@@ -1,0 +1,8 @@
+{
+  "width": 5,
+  "height": 2,
+  "grid": [
+    ["Water", "None",   "Fire",   "None", "None"],
+    ["Water", "None",   "Water",  "Fire", "Fire"]
+  ]
+}
