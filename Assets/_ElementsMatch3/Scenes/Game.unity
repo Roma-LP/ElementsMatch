@@ -473,9 +473,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b543677e39b240a8a145dfb45670fe5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridRoot: {fileID: 1774429268}
+  _gridRoot: {fileID: 1774429268}
   _blockConfigs: {fileID: 11400000, guid: 919793774eb84f04cb2d8e047e4ed43e, type: 2}
-  cellSize: {x: 1, y: 1}
+  _cellSize: {x: 1, y: 1}
 --- !u!1 &1577849682
 GameObject:
   m_ObjectHideFlags: 0
@@ -487,7 +487,7 @@ GameObject:
   - component: {fileID: 1577849684}
   - component: {fileID: 1577849683}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
