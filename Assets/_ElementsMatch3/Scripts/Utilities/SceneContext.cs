@@ -6,12 +6,13 @@ namespace _ElementsMatch3.Scripts.Utilities
 {
     public class SceneContext : Singleton<SceneContext>
     {
-        [SerializeField] private GridBuilder _gridBuilder;
+        [SerializeField] private GridManager _gridManager;
         
         private LevelLoader _levelLoader;
         private DebugLogger _debugLogger;
 
         public DebugLogger DebugLogger => _debugLogger;
+        public GridManager GridManager => _gridManager;
         
         protected override void Awake()
         {
@@ -29,7 +30,7 @@ namespace _ElementsMatch3.Scripts.Utilities
             _levelLoader = new LevelLoader();
             
             LevelData levelData =  _levelLoader.LoadLevel("level_01");
-            _gridBuilder.GenerateGrid(levelData);
+            _gridManager.Init(levelData);
         }
     }
 }

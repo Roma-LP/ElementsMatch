@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &91621800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +234,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
+  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -315,6 +316,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &519420033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56666c5a40171f54783dd416a44f42bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &866934142
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b556efd95706d8468171a50acd95891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gridBuilder: {fileID: 1372692990}
+  _gridManager: {fileID: 1372692989}
 --- !u!4 &1368546433
 Transform:
   m_ObjectHideFlags: 0
@@ -438,9 +455,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1372692988}
-  - component: {fileID: 1372692990}
+  - component: {fileID: 1372692989}
   m_Layer: 0
-  m_Name: GridBuilder
+  m_Name: GridManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -461,7 +478,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1368546433}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1372692990
+--- !u!114 &1372692989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -470,12 +487,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1372692987}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b543677e39b240a8a145dfb45670fe5c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b9169d1108844b0acee7aa24c759b65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _gridRoot: {fileID: 1774429268}
   _blockConfigs: {fileID: 11400000, guid: 919793774eb84f04cb2d8e047e4ed43e, type: 2}
-  _cellSize: {x: 1, y: 1}
 --- !u!1 &1577849682
 GameObject:
   m_ObjectHideFlags: 0

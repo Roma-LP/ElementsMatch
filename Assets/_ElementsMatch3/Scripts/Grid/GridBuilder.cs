@@ -5,18 +5,28 @@ using UnityEngine;
 
 namespace _ElementsMatch3.Scripts.Grid
 {
-    public class GridBuilder : MonoBehaviour
+    public class GridBuilder
     {
-        [SerializeField] private Transform _gridRoot;
-        [SerializeField] private BlockConfigContainer _blockConfigs;
-        [SerializeField] private Vector2 _cellSize = new Vector2(1, 1);
+        private readonly Transform _gridRoot;
+        private readonly BlockConfigContainer _blockConfigs;
+        private readonly Vector2 _cellSize = new Vector2(1, 1);
         
-        public void GenerateGrid(LevelData level)
+        private MatchBlock[,] _grid;
+        
+        public GridBuilder(Transform gridRoot, BlockConfigContainer blockConfigs)
+        {
+            _gridRoot = gridRoot;
+            _blockConfigs = blockConfigs;
+        }
+
+        public MatchBlock[,] GenerateGrid(LevelData level)
         {
             Vector2 offset = new Vector2(
                 -((level.width - 1) * _cellSize.x) / 2f,
                 0
             );
+
+            _grid = new MatchBlock[level.width, level.height];
             
             for (int y = 0; y < level.height; y++)
             {
@@ -27,11 +37,14 @@ namespace _ElementsMatch3.Scripts.Grid
 
                     MatchBlock matchBlockPrefab = _blockConfigs.GetBloockByType(type);
                     
-                    MatchBlock matchBlockInit = Instantiate(matchBlockPrefab, _gridRoot);
+                    MatchBlock matchBlockInit = Object.Instantiate(matchBlockPrefab, _gridRoot);
                     matchBlockInit.transform.localPosition = new Vector3(x * _cellSize.x, y * _cellSize.y, 0) + (Vector3)offset;
-                    matchBlockInit.SetConfig();
+                    matchBlockInit.SetConfig(new Vector2Int(x, y), type);
+                    _grid[x,y] = matchBlockInit;
                 }
             }
+
+            return _grid;
         }
     }
 }

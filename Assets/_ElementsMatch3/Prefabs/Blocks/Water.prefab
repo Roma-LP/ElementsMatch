@@ -130,6 +130,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7009365839432269133}
   - component: {fileID: 6232716079807035393}
+  - component: {fileID: -2109101997430623586}
   - component: {fileID: 7706223816733463820}
   m_Layer: 0
   m_Name: Water
@@ -167,6 +168,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animationController: {fileID: 2456588904355206806}
+--- !u!114 &-2109101997430623586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5193728486721209370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2434b5d2c59b4ad8a5158725f27e959f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _matchBlock: {fileID: 6232716079807035393}
 --- !u!61 &7706223816733463820
 BoxCollider2D:
   m_ObjectHideFlags: 0
