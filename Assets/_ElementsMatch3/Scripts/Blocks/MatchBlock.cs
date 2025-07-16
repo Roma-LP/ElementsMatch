@@ -22,7 +22,7 @@ namespace _ElementsMatch3.Scripts.Blocks
             GridPosition = gridPosition;
         }
 
-        public void UpdatePosition(Vector2Int pos, GridManager manager)
+        public void UpdatePosition(Vector2Int pos)
         {
             GridPosition = pos;
         }

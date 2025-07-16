@@ -1,6 +1,7 @@
 ﻿using _ElementsMatch3.Scripts.Blocks;
 using _ElementsMatch3.Scripts.Configs;
 using _ElementsMatch3.Scripts.Levels;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _ElementsMatch3.Scripts.Grid
@@ -11,17 +12,13 @@ namespace _ElementsMatch3.Scripts.Grid
         [SerializeField] private BlockConfigContainer _blockConfigs;
 
         private GridBuilder _gridBuilder;
-        private MatchBlock[,] _grid;
+        private GridCellData[,] _grid;
         private int _width;
         private int _height;
 
-        public void Init(LevelData level)
+        public void Init()
         {
             _gridBuilder = new GridBuilder(_gridRoot, _blockConfigs);
-
-            _width = level.width;
-            _height = level.height;
-            _grid = _gridBuilder.GenerateGrid(level);
         }
 
         public void TryMoveBlock(Vector2Int from, Vector2Int direction)
@@ -30,39 +27,25 @@ namespace _ElementsMatch3.Scripts.Grid
 
             if (!IsInside(to)) return;
 
-            var fromBlock = _grid[from.x, from.y];
-            var toBlock = _grid[to.x, to.y];
+            GridCellData fromCell = _grid[from.x, from.y];
+            GridCellData toCell = _grid[to.x, to.y];
 
-            if (direction == Vector2Int.up && toBlock == null) return;
+            if (direction == Vector2Int.up && toCell.IsEmptyCell) return;
 
-            if (toBlock != null)
-            {
-                SwapBlocks(from, to);
-            }
-            else
-            {
-                _grid[to.x, to.y] = fromBlock;
-                _grid[from.x, from.y] = null;
-
-                fromBlock.transform.localPosition = GetLocalPosition(to);
-                fromBlock.UpdatePosition(to, this);
-            }
+            SwapBlocks(fromCell, toCell);
         }
 
-        private void SwapBlocks(Vector2Int a, Vector2Int b)
+        private void SwapBlocks(GridCellData aCell, GridCellData bCell)
         {
-            var aBlock = _grid[a.x, a.y];
-            var bBlock = _grid[b.x, b.y];
+            MatchBlock aBlock = aCell.MatchBlockInCell;
+            MatchBlock bBlock = bCell.MatchBlockInCell;
 
-            _grid[a.x, a.y] = bBlock;
-            _grid[b.x, b.y] = aBlock;
-
-            Vector3 aPos = aBlock.transform.localPosition;
-            aBlock.transform.localPosition = bBlock.transform.localPosition;
-            bBlock.transform.localPosition = aPos;
-
-            aBlock.UpdatePosition(b, this);
-            bBlock.UpdatePosition(a, this);
+            //var sequence = DOTween.Sequence();
+            
+            //sequence.Join()
+            
+            bCell.UpdateCell(aBlock);
+            aCell.UpdateCell(bBlock);
         }
 
         private bool IsInside(Vector2Int pos)
@@ -70,10 +53,16 @@ namespace _ElementsMatch3.Scripts.Grid
             return pos.x >= 0 && pos.x < _width && pos.y >= 0 && pos.y < _height;
         }
 
-        private Vector3 GetLocalPosition(Vector2Int pos)
+        public void ReGenerateGrid(LevelData level)
         {
-            Vector2 gridOffset = new Vector2(-(_width - 1) / 2f, 0);
-            return new Vector3(pos.x, pos.y, 0) + (Vector3)gridOffset;
+            _width = level.width;
+            _height = level.height;
+            _grid = _gridBuilder.GenerateGrid(level);
+        }
+        
+        public void ReFillGrid(LevelData level)
+        {
+            _gridBuilder.FillGrid(level);
         }
     }
 }
