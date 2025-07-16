@@ -15,6 +15,8 @@ namespace _ElementsMatch3.Scripts.Grid
         private GridCellData[,] _grid;
         private int _width;
         private int _height;
+        private float _duration = 2f;
+        private Sequence _currentSwapSequence;
 
         public void Init()
         {
@@ -37,15 +39,30 @@ namespace _ElementsMatch3.Scripts.Grid
 
         private void SwapBlocks(GridCellData aCell, GridCellData bCell)
         {
+            if (_currentSwapSequence?.IsActive() == true && _currentSwapSequence.IsPlaying())
+                return;
+            
             MatchBlock aBlock = aCell.MatchBlockInCell;
             MatchBlock bBlock = bCell.MatchBlockInCell;
 
-            //var sequence = DOTween.Sequence();
-            
-            //sequence.Join()
-            
-            bCell.UpdateCell(aBlock);
-            aCell.UpdateCell(bBlock);
+            _currentSwapSequence = DOTween.Sequence();
+
+            _currentSwapSequence
+                .Join(aBlock.transform.DOLocalMove(bCell.LocalPosition, _duration));
+
+            if (bBlock != null)
+            {
+                _currentSwapSequence
+                    .Join(bBlock.transform.DOLocalMove(aCell.LocalPosition, _duration));
+            }
+
+            _currentSwapSequence.Play().SetLink(aBlock.gameObject).OnComplete(()=>
+            {
+                bCell.UpdateCell(aBlock);
+                aCell.UpdateCell(bBlock);
+
+                _currentSwapSequence = null;
+            });
         }
 
         private bool IsInside(Vector2Int pos)
