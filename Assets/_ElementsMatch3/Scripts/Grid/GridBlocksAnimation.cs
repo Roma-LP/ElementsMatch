@@ -14,11 +14,10 @@ namespace _ElementsMatch3.Scripts.Grid
     {
         [SerializeField] private float _moveDuration = 2f;
         [SerializeField] private Ease _moveEase = Ease.Linear;
+        [SerializeField, Range(100,2000)] private int _destroyDuration = 1000;
 
         [ShowInInspector, ReadOnly] private HashSet<Tweener> _activeAnimations = new HashSet<Tweener>();
 
-        public bool IsPlaying => _activeAnimations.Count > 0;
-        
         public void AnimateMove(MatchBlock block, Vector3 targetPosition, Action onComplete = null)
         {
             if (block == null)
@@ -68,6 +67,13 @@ namespace _ElementsMatch3.Scripts.Grid
 
             _activeAnimations.Add(tween);
             await tcs.Task;
+        }
+        
+        public async UniTask AnimateDestroyAsync(MatchBlock block, Action onComplete = null)
+        {
+            block.PlayDestroyAnimation();
+            await UniTask.Delay(_destroyDuration);
+            onComplete?.Invoke();
         }
         
         public void AnimateBatchMove(List<(MatchBlock block, Vector3 target)> moves, Action onComplete = null)

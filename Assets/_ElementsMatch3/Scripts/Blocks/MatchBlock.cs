@@ -25,5 +25,10 @@ namespace _ElementsMatch3.Scripts.Blocks
         {
             GridPosition = pos;
         }
+
+        public void PlayDestroyAnimation()
+        {
+            _animationController.SetTriggerDestroy();
+        }
     }
 }
