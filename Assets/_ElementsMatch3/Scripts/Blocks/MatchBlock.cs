@@ -1,5 +1,4 @@
-﻿using _ElementsMatch3.Scripts.Grid;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace _ElementsMatch3.Scripts.Blocks
 {

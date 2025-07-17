@@ -21,11 +21,13 @@ namespace _ElementsMatch3.Scripts.Grid
 
         private void ClearGridCell()
         {
-            if (_gridCellData == null) return;
+            if (_gridCellData == null)
+                return;
             
             foreach (GridCellData cell in _gridCellData)
             {
-                if(cell.IsEmptyCell) continue;
+                if(cell.IsEmptyCell)
+                    continue;
                 
                 Object.Destroy(cell.MatchBlockInCell.gameObject);
             }
@@ -75,7 +77,7 @@ namespace _ElementsMatch3.Scripts.Grid
                     MatchBlock matchBlockInit = Object.Instantiate(matchBlockPrefab, _gridRoot);
                     matchBlockInit.SetConfig(_gridCellData[x, y].GridPosition, type);
                     
-                    _gridCellData[x, y].UpdateCell(matchBlockInit);
+                    _gridCellData[x, y].UpdateCell(matchBlockInit, true);
                 }
             }
         }

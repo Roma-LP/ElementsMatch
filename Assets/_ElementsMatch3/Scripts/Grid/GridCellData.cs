@@ -23,14 +23,16 @@ namespace _ElementsMatch3.Scripts.Grid
             _localPosition = localPosition;
         }
 
-        public void UpdateCell(MatchBlock matchBlock)
+        public void UpdateCell(MatchBlock matchBlock, bool isUpdateVisualPosition = false)
         {
             _matchBlock = matchBlock;
             
             if (_matchBlock == null)
                 return;
             
-            _matchBlock.transform.localPosition = _localPosition;
+            if(isUpdateVisualPosition)
+                    _matchBlock.transform.localPosition = _localPosition;
+            
             _matchBlock.UpdatePosition(_gridPosition);
         }
     }

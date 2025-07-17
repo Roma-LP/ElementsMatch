@@ -4,14 +4,19 @@ namespace _ElementsMatch3.Scripts.Utilities
 {
     public class DebugLogger
     {
-        public void PrintException(string location, string text)
+        private string GetFormatedString(string location, string text)
         {
-            Debug.LogError($"<color=pink>[{location}] {text}</color>");
+            return $"<color=pink>[{location}] {text}</color>";
         }
         
-        public enum ExceptionLocation
+        public void PrintException(string location, string text)
         {
-            
+            Debug.LogError(GetFormatedString(location,text));
+        }
+
+        public void PrintLog(string location, string text)
+        {
+            Debug.Log(GetFormatedString(location,text));
         }
     }
 }

@@ -10,6 +10,7 @@ namespace _ElementsMatch3.Scripts.Utilities
         [SerializeField] private GridManager _gridManager;
         [SerializeField] private UIButtonsLinks _uiButtonsLinks;
         [SerializeField] private UITextLevel _uiTextLevel;
+        [SerializeField] private GridBlocksAnimation _gridBlocksAnimation;
         
         private LevelLoader _levelLoader;
         private DebugLogger _debugLogger;
@@ -18,6 +19,7 @@ namespace _ElementsMatch3.Scripts.Utilities
         public DebugLogger DebugLogger => _debugLogger;
         public GridManager GridManager => _gridManager;
         public UIButtonsLinks UIButtonsLinks => _uiButtonsLinks;
+        public GridBlocksAnimation GridBlocksAnimation => _gridBlocksAnimation;
         
         protected override void Awake()
         {

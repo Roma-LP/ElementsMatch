@@ -13,12 +13,12 @@ namespace _ElementsMatch3.Scripts.Blocks
         private float _swipeLenght = 30f;
         private GridManager _gridManager;
 
-        private void TryCallMoveBlock(Vector2Int direction)
+        private async void TryCallMoveBlock(Vector2Int direction)
         {
             if (_gridManager == null)
                 _gridManager = SceneContext.Instance.GridManager;
             
-            _gridManager.TryMoveBlock(_matchBlock.GridPosition, direction);
+            await _gridManager.TryMoveBlock(_matchBlock.GridPosition, direction);
         }
 
         public void OnBeginDrag(PointerEventData eventData)

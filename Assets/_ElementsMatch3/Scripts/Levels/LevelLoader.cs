@@ -94,7 +94,7 @@ namespace _ElementsMatch3.Scripts.Levels
                 return null;
             }
 
-            if (currentIndex + 1 >= _sortedLevelNumbers.Length)
+            if (++currentIndex >= _sortedLevelNumbers.Length)
             {
                 currentIndex = 0;
             }

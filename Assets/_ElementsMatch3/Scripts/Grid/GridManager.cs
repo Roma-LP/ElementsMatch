@@ -1,7 +1,9 @@
-﻿using _ElementsMatch3.Scripts.Blocks;
+﻿using System.Collections.Generic;
+using _ElementsMatch3.Scripts.Blocks;
 using _ElementsMatch3.Scripts.Configs;
 using _ElementsMatch3.Scripts.Levels;
-using DG.Tweening;
+using _ElementsMatch3.Scripts.Utilities;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace _ElementsMatch3.Scripts.Grid
@@ -15,16 +17,20 @@ namespace _ElementsMatch3.Scripts.Grid
         private GridCellData[,] _grid;
         private int _width;
         private int _height;
-        private float _duration = 2f;
-        private Sequence _currentSwapSequence;
+        private GridBlocksAnimation _gridBlocksAnimation;
 
         public void Init()
         {
             _gridBuilder = new GridBuilder(_gridRoot, _blockConfigs);
+
+            _gridBlocksAnimation = SceneContext.Instance.GridBlocksAnimation;
         }
 
-        public void TryMoveBlock(Vector2Int from, Vector2Int direction)
+        public async UniTask TryMoveBlock(Vector2Int from, Vector2Int direction)
         {
+            if (_gridBlocksAnimation.IsPlaying)
+                return;
+
             Vector2Int to = from + direction;
 
             if (!IsInside(to)) return;
@@ -33,36 +39,70 @@ namespace _ElementsMatch3.Scripts.Grid
             GridCellData toCell = _grid[to.x, to.y];
 
             if (direction == Vector2Int.up && toCell.IsEmptyCell) return;
-
-            SwapBlocks(fromCell, toCell);
+            
+            await SwapBlocks(fromCell, toCell);
+            
+            await NormalizeFallingBlock();
+            
+            await NormalizeSecondPhase();
+            
+            Debug.LogError("ok");
         }
 
-        private void SwapBlocks(GridCellData aCell, GridCellData bCell)
+        private async UniTask SwapBlocks(GridCellData aCell, GridCellData bCell)
         {
-            if (_currentSwapSequence?.IsActive() == true && _currentSwapSequence.IsPlaying())
-                return;
-            
             MatchBlock aBlock = aCell.MatchBlockInCell;
             MatchBlock bBlock = bCell.MatchBlockInCell;
+            
+            UniTask aAnim = _gridBlocksAnimation.AnimateMoveAsync(aBlock, bCell.LocalPosition);
+            UniTask bAnim = bBlock != null
+                ? _gridBlocksAnimation.AnimateMoveAsync(bBlock, aCell.LocalPosition)
+                : UniTask.CompletedTask;
 
-            _currentSwapSequence = DOTween.Sequence();
-
-            _currentSwapSequence
-                .Join(aBlock.transform.DOLocalMove(bCell.LocalPosition, _duration));
-
-            if (bBlock != null)
+            bCell.UpdateCell(aBlock);
+            aCell.UpdateCell(bBlock);
+            
+            await UniTask.WhenAll(aAnim, bAnim);
+        }
+        
+        private async UniTask NormalizeFallingBlock()
+        {
+            List<UniTask> animations = new List<UniTask>();
+            
+            for (int x = 0; x < _width; x++)
             {
-                _currentSwapSequence
-                    .Join(bBlock.transform.DOLocalMove(aCell.LocalPosition, _duration));
+                for (int y = 1; y < _height; y++)
+                {
+                    GridCellData currentCell = _grid[x, y];
+                    if (currentCell.IsEmptyCell)
+                        continue;
+
+                    MatchBlock fallingBlock = currentCell.MatchBlockInCell;
+                    int targetY = y;
+                    
+                    while (targetY - 1 >= 0 && _grid[x, targetY - 1].IsEmptyCell)
+                    {
+                        targetY--;
+                    }
+
+                    if (targetY != y)
+                    {
+                        GridCellData targetCell = _grid[x, targetY];
+                        
+                        targetCell.UpdateCell(fallingBlock);
+                        currentCell.UpdateCell(null);
+
+                        animations.Add(_gridBlocksAnimation.AnimateMoveAsync(fallingBlock, targetCell.LocalPosition));
+                    }
+                }
             }
-
-            _currentSwapSequence.Play().SetLink(aBlock.gameObject).OnComplete(()=>
-            {
-                bCell.UpdateCell(aBlock);
-                aCell.UpdateCell(bBlock);
-
-                _currentSwapSequence = null;
-            });
+            
+            await UniTask.WhenAll(animations);
+        }
+        
+        private async UniTask NormalizeSecondPhase()
+        {
+            await UniTask.Yield();
         }
 
         private bool IsInside(Vector2Int pos)
@@ -76,7 +116,7 @@ namespace _ElementsMatch3.Scripts.Grid
             _height = level.height;
             _grid = _gridBuilder.GenerateGrid(level);
         }
-        
+
         public void ReFillGrid(LevelData level)
         {
             _gridBuilder.FillGrid(level);
