@@ -333,6 +333,59 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!1 &820436540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 820436541}
+  - component: {fileID: 820436542}
+  m_Layer: 0
+  m_Name: BalloonSineMover
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &820436541
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820436540}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.04, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1368546433}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &820436542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820436540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5d68f7f40c47e5aacd0509701955fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _balloonPrefabs:
+  - {fileID: 8438902242628127925, guid: 70c8a76e51c7b394dbc5d9b6e9e3e206, type: 3}
+  - {fileID: 4538753201267371258, guid: d6a43ddb59a715b4b9af1bb34789c4a3, type: 3}
+  _ballCount: 3
+  _speedRange: {x: 0.5, y: 2}
+  _heightSineWave: {x: 0.5, y: 1}
+  _frequencyRange: {x: 1, y: 2}
+  _ySpawnRange: {x: -1, y: 3.3}
+  _offscreenOffset: 0.1
 --- !u!1 &866934142
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,6 +810,7 @@ MonoBehaviour:
   _uiButtonsLinks: {fileID: 977069337}
   _uiTextLevel: {fileID: 977069338}
   _gridBlocksAnimation: {fileID: 1556567840}
+  _balloonSineMover: {fileID: 820436542}
 --- !u!4 &1368546433
 Transform:
   m_ObjectHideFlags: 0
@@ -772,6 +826,7 @@ Transform:
   m_Children:
   - {fileID: 1372692988}
   - {fileID: 1556567839}
+  - {fileID: 820436541}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1372692987
@@ -987,6 +1042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveDuration: 2
   _moveEase: 1
+  _destroyDuration: 1000
 --- !u!1 &1577849682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1044,7 +1100,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: -5
   m_Sprite: {fileID: 21300000, guid: 087b80871e9576347ac8dd099aec3f14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

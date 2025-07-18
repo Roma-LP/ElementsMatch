@@ -1,3 +1,4 @@
+using _ElementsMatch3.Scripts.Balloons;
 using _ElementsMatch3.Scripts.Grid;
 using _ElementsMatch3.Scripts.Levels;
 using _ElementsMatch3.Scripts.UI;
@@ -11,6 +12,7 @@ namespace _ElementsMatch3.Scripts.Utilities
         [SerializeField] private UIButtonsLinks _uiButtonsLinks;
         [SerializeField] private UITextLevel _uiTextLevel;
         [SerializeField] private GridBlocksAnimation _gridBlocksAnimation;
+        [SerializeField] private BalloonSineMover _balloonSineMover;
         
         private LevelLoader _levelLoader;
         private DebugLogger _debugLogger;
@@ -38,6 +40,7 @@ namespace _ElementsMatch3.Scripts.Utilities
             _gridManager.Init();
             _uiButtonsLinks.Init();
             _uiTextLevel.Init(_levelLoader);
+            _balloonSineMover.Init();
             
             _levelController = new LevelController(_levelLoader, _gridManager, _uiButtonsLinks);
             
