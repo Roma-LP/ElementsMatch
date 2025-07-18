@@ -58,7 +58,6 @@ namespace _ElementsMatch3.Scripts.Grid
 
             CheckGridIsEmpty();
             _isBlockMoving = false;
-            Debug.LogError("ok");
         }
 
         private async UniTask SwapBlocks(GridCellData aCell, GridCellData bCell)
