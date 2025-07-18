@@ -556,10 +556,10 @@ RectTransform:
   - {fileID: 2060882149}
   m_Father: {fileID: 977069336}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -50}
-  m_SizeDelta: {x: 250, y: 100}
+  m_AnchorMin: {x: 0.043518517, y: 0.23500001}
+  m_AnchorMax: {x: 0.2852963, y: 0.7682186}
+  m_AnchoredPosition: {x: 3, y: -1}
+  m_SizeDelta: {x: -11, y: -13}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1087352541
 MonoBehaviour:
@@ -675,10 +675,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 977069336}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: 350, y: 100}
+  m_AnchorMin: {x: 0.33688888, y: 0.3201074}
+  m_AnchorMax: {x: 0.6631111, y: 0.7682186}
+  m_AnchoredPosition: {x: 0, y: -1}
+  m_SizeDelta: {x: -2, y: 5}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1320997608
 MonoBehaviour:
@@ -727,7 +727,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 66.55
+  m_fontSize: 66.4
   m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -909,10 +909,10 @@ RectTransform:
   - {fileID: 2067606441}
   m_Father: {fileID: 977069336}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -50, y: -50}
-  m_SizeDelta: {x: 250, y: 100}
+  m_AnchorMin: {x: 0.72770375, y: 0.3201074}
+  m_AnchorMax: {x: 0.952, y: 0.7682186}
+  m_AnchoredPosition: {x: 2, y: -1}
+  m_SizeDelta: {x: 8, y: 5}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1376785831
 MonoBehaviour:
@@ -1040,7 +1040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4fa06e915e944ad81455b546741a602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveDuration: 2
+  _moveDuration: 0.3
   _moveEase: 1
   _destroyDuration: 1000
 --- !u!1 &1577849682
@@ -1167,6 +1167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2024142652}
+  - component: {fileID: 2024142653}
   m_Layer: 5
   m_Name: UI_container
   m_TagString: Untagged
@@ -1194,6 +1195,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2024142653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024142651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a33baa8b1f07c54ca3066e99efe5f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2060882148
 GameObject:
   m_ObjectHideFlags: 0

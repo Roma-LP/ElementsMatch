@@ -1,8 +1,8 @@
 {
-  "levelNumber": 2,
-  "width": 6,
-  "height": 5,
-  "grid": [
+  "LevelNumber": 2,
+  "Width": 6,
+  "Height": 5,
+  "Grid": [
     ["None",  "Water", "Water",  "None",    "None",  "None"],
     ["None",  "Water", "Fire",   "Water",   "Water", "None"],
     ["None",  "Fire",  "Water",  "Fire",    "Fire",  "None"],

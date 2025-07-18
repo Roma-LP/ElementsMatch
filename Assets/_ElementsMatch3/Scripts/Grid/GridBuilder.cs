@@ -43,8 +43,8 @@ namespace _ElementsMatch3.Scripts.Grid
             float cameraHeight = 2f * _main.orthographicSize;
             float cameraWidth = cameraHeight * _main.aspect;
 
-            float maxGridWidth = level.width;
-            float maxGridHeight = level.height;
+            float maxGridWidth = level.Width;
+            float maxGridHeight = level.Height;
 
             float availableWidth = cameraWidth * _usableScreenPercent;
             float availableHeight = cameraHeight * _usableScreenPercent;
@@ -56,15 +56,15 @@ namespace _ElementsMatch3.Scripts.Grid
             _cellSize = new Vector2(cellSizeValue, cellSizeValue);
             
             Vector2 offset = new Vector2(
-                -((level.width - 1) * _cellSize.x) / 2f,
+                -((level.Width - 1) * _cellSize.x) / 2f,
                 0
             );
 
-            _gridCellData = new GridCellData[level.width, level.height];
+            _gridCellData = new GridCellData[level.Width, level.Height];
 
-            for (int y = 0; y < level.height; y++)
+            for (int y = 0; y < level.Height; y++)
             {
-                for (int x = 0; x < level.width; x++)
+                for (int x = 0; x < level.Width; x++)
                 {
                     Vector3 cellLocalTransformPositionInGrid = new Vector3(x * _cellSize.x, y * _cellSize.y, 0) + (Vector3)offset;
                     Vector2Int cellPositionInGrid = new Vector2Int(x, y);
@@ -80,11 +80,11 @@ namespace _ElementsMatch3.Scripts.Grid
         {
             ClearGridCell();
             
-            for (int y = 0; y < level.height; y++)
+            for (int y = 0; y < level.Height; y++)
             {
-                for (int x = 0; x < level.width; x++)
+                for (int x = 0; x < level.Width; x++)
                 {
-                    BlockType type = level.grid[level.height - 1 - y][x];
+                    BlockType type = level.GetBlockAtGridPosition(x, y);
                     if (type == BlockType.None)
                     {
                         _gridCellData[x, y].UpdateCell(null);

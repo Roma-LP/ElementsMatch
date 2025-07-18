@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using _ElementsMatch3.Scripts.GameSaves;
 using _ElementsMatch3.Scripts.Utilities;
 using UnityEngine;
 using Newtonsoft.Json;
@@ -11,7 +12,9 @@ namespace _ElementsMatch3.Scripts.Levels
     {
         private const string LEVELS_FOLDER_PATH = "Levels";
 
-        private Dictionary<int, LevelData> _levelsByNumber = new();
+        private readonly Dictionary<int, LevelData> _levelsByNumber = new();
+        private readonly GameSaveContainer _gameSaveContainer;
+        
         private int[] _sortedLevelNumbers;
         private int _currentLevelNumber = -1;
 
@@ -30,9 +33,12 @@ namespace _ElementsMatch3.Scripts.Levels
 
         public event Action<int> OnСurrentLevelChanged;
 
-        public LevelLoader()
+        public LevelLoader(GameSaveContainer gameSaveContainer)
         {
+            _gameSaveContainer = gameSaveContainer;
+            
             LoadAllLevels();
+            LoadCurrentLevelNumber();
         }
 
         private void LoadAllLevels()
@@ -52,16 +58,16 @@ namespace _ElementsMatch3.Scripts.Levels
                 {
                     LevelData level = JsonConvert.DeserializeObject<LevelData>(file.text);
 
-                    if (_levelsByNumber.ContainsKey(level.levelNumber))
+                    if (_levelsByNumber.ContainsKey(level.LevelNumber))
                     {
                         SceneContext.Instance.DebugLogger.PrintException(nameof(LevelLoader),
-                            $"Duplicate level number '{level.levelNumber}' in file '{file.name}'");
+                            $"Duplicate level number '{level.LevelNumber}' in file '{file.name}'");
                         continue;
                     }
 
-                    _levelsByNumber[level.levelNumber] = level;
+                    _levelsByNumber[level.LevelNumber] = level;
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     SceneContext.Instance.DebugLogger.PrintException(nameof(LevelLoader),
                         $"Failed to load level from '{file.name}': {ex.Message}");
@@ -69,6 +75,14 @@ namespace _ElementsMatch3.Scripts.Levels
             }
 
             _sortedLevelNumbers = _levelsByNumber.Keys.OrderBy(key => key).ToArray();
+        }
+
+        private void LoadCurrentLevelNumber()
+        {
+            if (_gameSaveContainer.GameSessionData.TryGetLevelData(out LevelData levelData))
+            {
+                CurrentLevelNumber = levelData.LevelNumber;
+            }
         }
 
         public LevelData GetLevelByNumber(int levelNumber)
@@ -86,7 +100,7 @@ namespace _ElementsMatch3.Scripts.Levels
 
         public LevelData GetNextLevel()
         {
-            int currentIndex = System.Array.IndexOf(_sortedLevelNumbers, CurrentLevelNumber);
+            int currentIndex =Array.IndexOf(_sortedLevelNumbers, CurrentLevelNumber);
 
             if (currentIndex == -1 || _sortedLevelNumbers.Length == 0)
             {

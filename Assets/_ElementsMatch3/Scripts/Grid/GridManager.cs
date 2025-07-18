@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _ElementsMatch3.Scripts.Blocks;
 using _ElementsMatch3.Scripts.Configs;
+using _ElementsMatch3.Scripts.GameSaves;
 using _ElementsMatch3.Scripts.Levels;
 using _ElementsMatch3.Scripts.Utilities;
 using Cysharp.Threading.Tasks;
@@ -20,6 +22,8 @@ namespace _ElementsMatch3.Scripts.Grid
         private int _height;
         private GridBlocksAnimation _gridBlocksAnimation;
         private bool _isBlockMoving;
+
+        public event Action OnGridEmpty; 
 
         public void Init()
         {
@@ -51,7 +55,8 @@ namespace _ElementsMatch3.Scripts.Grid
             await NormalizeFallingBlock();
             
             await NormalizeSecondPhase();
-            
+
+            CheckGridIsEmpty();
             _isBlockMoving = false;
             Debug.LogError("ok");
         }
@@ -254,6 +259,16 @@ namespace _ElementsMatch3.Scripts.Grid
             return false;
         }
 
+        private void CheckGridIsEmpty()
+        {
+            if (_grid.Cast<GridCellData>().Any(gridCellData => !gridCellData.IsEmptyCell))
+            {
+                return;
+            }
+
+            OnGridEmpty?.Invoke();
+        }
+
         private bool IsInside(Vector2Int pos)
         {
             return pos.x >= 0 && pos.x < _width && pos.y >= 0 && pos.y < _height;
@@ -261,8 +276,9 @@ namespace _ElementsMatch3.Scripts.Grid
 
         public void ReGenerateGrid(LevelData level)
         {
-            _width = level.width;
-            _height = level.height;
+            _width = level.Width;
+            _height = level.Height;
+            
             _grid = _gridBuilder.GenerateGrid(level);
         }
 
