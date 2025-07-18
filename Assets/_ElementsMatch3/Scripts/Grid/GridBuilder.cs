@@ -9,14 +9,17 @@ namespace _ElementsMatch3.Scripts.Grid
     {
         private readonly Transform _gridRoot;
         private readonly BlockConfigContainer _blockConfigs;
-        private readonly Vector2 _cellSize = new Vector2(1, 1);
+        private readonly float _usableScreenPercent = 0.9f;
+        private readonly Camera _main;
 
         private GridCellData[,] _gridCellData;
+        private Vector2 _cellSize;
 
         public GridBuilder(Transform gridRoot, BlockConfigContainer blockConfigs)
         {
             _gridRoot = gridRoot;
             _blockConfigs = blockConfigs;
+            _main = Camera.main;
         }
 
         private void ClearGridCell()
@@ -36,6 +39,21 @@ namespace _ElementsMatch3.Scripts.Grid
         public GridCellData[,] GenerateGrid(LevelData level)
         {
             ClearGridCell();
+            
+            float cameraHeight = 2f * _main.orthographicSize;
+            float cameraWidth = cameraHeight * _main.aspect;
+
+            float maxGridWidth = level.width;
+            float maxGridHeight = level.height;
+
+            float availableWidth = cameraWidth * _usableScreenPercent;
+            float availableHeight = cameraHeight * _usableScreenPercent;
+
+            float cellWidth = availableWidth / maxGridWidth;
+            float cellHeight = availableHeight / maxGridHeight;
+
+            float cellSizeValue = Mathf.Min(cellWidth, cellHeight);
+            _cellSize = new Vector2(cellSizeValue, cellSizeValue);
             
             Vector2 offset = new Vector2(
                 -((level.width - 1) * _cellSize.x) / 2f,
@@ -76,7 +94,8 @@ namespace _ElementsMatch3.Scripts.Grid
                     MatchBlock matchBlockPrefab = _blockConfigs.GetBloockByType(type);
                     MatchBlock matchBlockInit = Object.Instantiate(matchBlockPrefab, _gridRoot);
                     matchBlockInit.SetConfig(_gridCellData[x, y].GridPosition, type);
-                    
+                    matchBlockInit.transform.localScale = new Vector3(_cellSize.x, _cellSize.y, 1f);
+
                     _gridCellData[x, y].UpdateCell(matchBlockInit, true);
                 }
             }
